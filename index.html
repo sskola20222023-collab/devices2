@@ -1,0 +1,681 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090d19">
+<title>CYBER LAB | Інформатика 8 клас</title>
+<style>
+:root{
+  --bg:#090d19;--panel:#121a2b;--panel2:#0c1425;
+  --line:#293956;--text:#edf3ff;--muted:#a6b5cf;
+  --cyan:#43f5df;--purple:#b69aff;--pink:#ff79b7;
+  --green:#6ef0a7;--yellow:#ffdc75;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:
+  radial-gradient(ellipse at 50% -15%,#26376a 0,transparent 50%),
+  radial-gradient(ellipse at 100% 40%,#23163d 0,transparent 35%),
+  var(--bg);
+  color:var(--text);font:16px/1.65 system-ui,-apple-system,sans-serif;
+}
+button,input,textarea,select{font:inherit}
+button{touch-action:manipulation}
+a{color:var(--cyan)}
+header,main,footer{width:min(100% - 28px,1000px);margin:auto}
+header{text-align:center;padding:44px 10px 20px}
+.logo{font-size:48px;letter-spacing:8px}
+.eyebrow{color:var(--cyan);font-size:12px;font-weight:800;letter-spacing:3px}
+h1{font-size:clamp(34px,7vw,62px);line-height:1.08;margin:12px 0}
+h1 span{color:var(--cyan);text-shadow:0 0 28px #43f5df40}
+h2{font-size:clamp(20px,3vw,26px);line-height:1.25;margin:10px 0}
+h3{font-size:17px}
+p{margin:10px 0;color:var(--muted)}
+strong{color:var(--text)}
+.panel{
+  background:linear-gradient(145deg,#151f34f5,#101728f7);
+  border:1px solid var(--line);border-radius:20px;
+  padding:clamp(17px,4vw,26px);margin:17px 0;
+  box-shadow:0 12px 40px #0002;
+}
+.hero-panel{border-color:#3b5972}
+.tag{display:inline-block;color:var(--cyan);font-size:12px;
+  letter-spacing:1.4px;font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:13px}
+label{display:block;margin:12px 0 6px;color:#dbe6fa;font-size:14px}
+input,textarea,select{
+  width:100%;padding:12px 13px;border:1px solid var(--line);
+  border-radius:11px;background:#080f1e;color:var(--text);
+  outline:none;min-width:0;
+}
+input:focus,textarea:focus,select:focus,button:focus-visible{
+  outline:2px solid var(--cyan);outline-offset:2px
+}
+textarea{min-height:100px;resize:vertical}
+button{
+  border:1px solid var(--line);background:#1a2740;color:var(--text);
+  border-radius:11px;padding:11px 15px;cursor:pointer;
+  transition:transform .15s,border-color .15s;
+}
+button:hover:not(:disabled){border-color:var(--cyan);transform:translateY(-1px)}
+button:disabled{opacity:.55;cursor:not-allowed}
+.primary{background:var(--cyan);color:#06131b;border-color:var(--cyan);font-weight:850}
+.secondary{background:transparent}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+.option{
+  display:block;width:100%;text-align:left;margin:9px 0;
+  padding:13px 15px;background:#101a2e;border:1px solid #2c3c5b;
+  line-height:1.5;
+}
+.option.selected{border-color:var(--purple);background:#30294b}
+.option.correct{border-color:var(--green);background:#12352f}
+.option.wrong{border-color:var(--pink);background:#3a2036}
+.option:disabled{opacity:1;cursor:default}
+.feedback{min-height:26px;margin-top:12px;font-size:14px;color:var(--cyan)}
+.feedback.error{color:var(--pink)}
+.feedback.success{color:var(--green)}
+.muted,.small{color:var(--muted)}
+.small{font-size:12px}
+.progress{height:9px;background:#26324a;border-radius:99px;overflow:hidden}
+#bar{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--purple));transition:width .25s}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:#0c1425;border:1px solid var(--line);border-radius:13px;padding:12px}
+.stat strong{display:block;font-size:22px;color:var(--cyan)}
+.stat span{font-size:12px;color:var(--muted)}
+.mission-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.points{color:var(--yellow);font-size:13px}
+.device-row{border-bottom:1px solid var(--line);padding:4px 0 12px}
+.device-row:last-child{border:0}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:14px 0}
+th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--cyan)}
+.table-wrap{overflow-x:auto}
+#code{font:13px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;min-height:270px;tab-size:4}
+#output{min-height:85px;white-space:pre-wrap;overflow-wrap:anywhere;
+  background:#050a12;border:1px solid #23324c;border-radius:12px;padding:14px;
+  font:13px/1.6 ui-monospace,monospace;color:var(--green)}
+details{background:#0d1526;border:1px solid var(--line);border-radius:12px;padding:12px 15px}
+summary{cursor:pointer;font-weight:700}
+.chip{display:inline-block;padding:4px 9px;border-radius:99px;
+  border:1px solid var(--line);font-size:12px;color:var(--purple)}
+.notice{border-left:3px solid var(--purple);padding:10px 14px;background:#17152c;border-radius:0 10px 10px 0}
+footer{text-align:center;padding:22px 0 38px}
+[hidden]{display:none!important}
+@media(max-width:520px){
+  header{padding-top:28px}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:last-child{grid-column:1/-1}
+  th,td{padding:8px;font-size:12px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" aria-hidden="true">🖥️ 🎧 🎮</div>
+  <div class="eyebrow">DIGITAL SKILLS · LEVEL 08</div>
+  <h1>CYBER <span>LAB</span></h1>
+  <p>Місія: пристрої введення та виведення інформації</p>
+  <p>Не вгадай — проаналізуй, порівняй і доведи свій вибір.</p>
+  <div class="actions" style="justify-content:center">
+    <a href="#profile">👩‍💻 Почати місію</a>
+    <a href="#python">🐍 Python Lab</a>
+  </div>
+</header>
+
+<main>
+<section class="panel hero-panel" id="profile">
+  <div class="tag">IDENTIFICATION // 08</div>
+  <h2>🪪 Профіль дослідника</h2>
+  <p>Заповни профіль, щоб учитель міг визначити автора результату.</p>
+  <div class="grid">
+    <div>
+      <label for="student">Ім'я та прізвище *</label>
+      <input id="student" autocomplete="name" maxlength="100" placeholder="Наприклад, Марія Коваленко" required>
+    </div>
+    <div>
+      <label for="classroom">Клас *</label>
+      <input id="classroom" maxlength="20" placeholder="8-А" required>
+    </div>
+  </div>
+  <p class="small">Не вводь паролі, адресу проживання або інші приватні дані.</p>
+</section>
+
+<section class="panel">
+  <div class="stats">
+    <div class="stat"><span>ПРОЙДЕНО</span><strong id="progressText">0 / 10</strong><span>місій</span></div>
+    <div class="stat"><span>РЕЗУЛЬТАТ</span><strong id="score">0 / 22</strong><span>балів</span></div>
+    <div class="stat"><span>СТАТУС</span><strong id="rank" style="font-size:17px">Новачок</strong><span>дослідника</span></div>
+  </div>
+  <div style="margin-top:16px" class="progress" role="progressbar" aria-label="Прогрес виконання" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" id="progressBar">
+    <div id="bar"></div>
+  </div>
+  <p class="small">Місії 1–9: до 2 балів кожна. Програмування: до 4 балів.</p>
+</section>
+
+<section class="panel" id="m1">
+  <div class="mission-head"><span class="tag">МІСІЯ 01 · КІБЕРДЕТЕКТИВ</span><span class="points">+2 бали</span></div>
+  <h2>🎙️ Студія стримера</h2>
+  <p>Олег транслює гру. Глядачі мають бачити його обличчя, чути голос і звук гри. Який комплект пристроїв найкраще відповідає завданню?</p>
+  <div id="q1"></div>
+  <div class="feedback" id="f1" aria-live="polite"></div>
+  <button class="primary" onclick="check(1)">Перевірити рішення</button>
+</section>
+
+<section class="panel" id="m2">
+  <div class="mission-head"><span class="tag">МІСІЯ 02 · ОЦИФРУВАННЯ</span><span class="points">+2 бали</span></div>
+  <h2>📚 Порятунок бібліотеки</h2>
+  <p>Потрібно перетворити сторінки старих паперових книжок на цифрові зображення, щоб зберігати їх на комп'ютері. Який пристрій варто використати?</p>
+  <div id="q2"></div>
+  <div class="feedback" id="f2" aria-live="polite"></div>
+  <button class="primary" onclick="check(2)">Перевірити рішення</button>
+</section>
+
+<section class="panel" id="m3">
+  <div class="mission-head"><span class="tag">МІСІЯ 03 · АНАЛІЗ ХАРАКТЕРИСТИК</span><span class="points">+2 бали</span></div>
+  <h2>🎨 Монітор для дизайнера</h2>
+  <p>Дизайнер редагує фотографії. Йому важливі деталізація та правильна передача кольорів. Які характеристики найдоречніше порівнювати?</p>
+  <div id="q3"></div>
+  <div class="feedback" id="f3" aria-live="polite"></div>
+  <button class="primary" onclick="check(3)">Перевірити рішення</button>
+</section>
+
+<section class="panel" id="m4">
+  <div class="mission-head"><span class="tag">МІСІЯ 04 · СИСТЕМНЕ МИСЛЕННЯ</span><span class="points">+2 бали</span></div>
+  <h2>🔄 Вхід чи вихід?</h2>
+  <p>Визнач призначення кожного пристрою. Обирай «Введення», якщо пристрій передає дані до комп'ютера, і «Виведення», якщо подає інформацію користувачу.</p>
+  <div id="q4"></div>
+  <div class="feedback" id="f4" aria-live="polite"></div>
+  <button class="primary" onclick="check(4)">Перевірити розподіл</button>
+</section>
+
+<section class="panel" id="m5">
+  <div class="mission-head"><span class="tag">МІСІЯ 05 · ЦИФРОВА ДОСТУПНІСТЬ</span><span class="points">+2 бали</span></div>
+  <h2>♿ Комп'ютер для кожного</h2>
+  <p>Учневі важко користуватися мишею. Він хоче диктувати текст голосом, а потім прослуховувати документи. Який набір технологій найкраще допоможе?</p>
+  <div id="q5"></div>
+  <div class="feedback" id="f5" aria-live="polite"></div>
+  <button class="primary" onclick="check(5)">Перевірити рішення</button>
+</section>
+
+<section class="panel" id="m6">
+  <div class="mission-head"><span class="tag">МІСІЯ 06 · SMART SHOPPING</span><span class="points">+2 бали</span></div>
+  <h2>💻 Ноутбук під завдання</h2>
+  <p>Шкільна команда має бюджет <strong>28 000 грн</strong>. Ноутбук потрібен для програмування, багатьох вкладок браузера та нескладного редагування відео. Дискретна відеокарта не обов'язкова.</p>
+  <p>Порівняй характеристики, а не лише ціну чи діагональ екрана.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Модель</th><th>RAM</th><th>Накопичувач</th><th>Процесор</th><th>Ціна</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>8 ГБ</td><td>SSD 256 ГБ</td><td>Базовий</td><td>18 000 грн</td></tr>
+        <tr><td>B</td><td>16 ГБ</td><td>SSD 512 ГБ</td><td>Сучасний багатоядерний</td><td>27 000 грн</td></tr>
+        <tr><td>C</td><td>4 ГБ</td><td>HDD 1 ТБ</td><td>Базовий</td><td>22 000 грн</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">Це навчальні умовні конфігурації, а не реальні пропозиції магазинів.</p>
+  <div id="q6"></div>
+  <div class="feedback" id="f6" aria-live="polite"></div>
+  <button class="primary" onclick="check(6)">Обґрунтувати вибір</button>
+</section>
+
+<section class="panel" id="m7">
+  <div class="mission-head"><span class="tag">МІСІЯ 07 · MOBILE EXPERT</span><span class="points">+2 бали</span></div>
+  <h2>📱 Смартфон для медіакоманди</h2>
+  <p>Команда знімає відео для шкільного медіаканалу. Потрібні якісне відео зі стабілізацією, достатня пам'ять і батарея на день. Бюджет — до <strong>20 000 грн</strong>.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Модель</th><th>Пам'ять</th><th>Відео</th><th>Батарея</th><th>Ціна</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>64 ГБ</td><td>Базове, без стабілізації</td><td>4000 мА·год</td><td>8 000 грн</td></tr>
+        <tr><td>B</td><td>256 ГБ</td><td>Якісне, зі стабілізацією</td><td>5000 мА·год</td><td>19 000 грн</td></tr>
+        <tr><td>C</td><td>128 ГБ</td><td>Висока роздільна здатність, стабілізація не вказана</td><td>3000 мА·год</td><td>18 500 грн</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">Ємність батареї та мегапікселі самі по собі не гарантують автономності чи якості камери.</p>
+  <div id="q7"></div>
+  <div class="feedback" id="f7" aria-live="polite"></div>
+  <button class="primary" onclick="check(7)">Обґрунтувати вибір</button>
+</section>
+
+<section class="panel" id="m8">
+  <div class="mission-head"><span class="tag">МІСІЯ 08 · PRINT LAB</span><span class="points">+2 бали</span></div>
+  <h2>🖨️ Принтер для школи</h2>
+  <p>Кабінет друкує близько 700 сторінок щотижня, переважно чорно-білі документи. Фотографії друкують рідко. Важливі швидкість та низька вартість сторінки.</p>
+  <div id="q8"></div>
+  <div class="feedback" id="f8" aria-live="polite"></div>
+  <button class="primary" onclick="check(8)">Обґрунтувати вибір</button>
+</section>
+
+<section class="panel" id="m9">
+  <div class="mission-head"><span class="tag">МІСІЯ 09 · MOUSE TUNING</span><span class="points">+2 бали</span></div>
+  <h2>🖱️ Миша під стиль роботи</h2>
+  <p>Учень працює з графікою та іноді грає в ігри. Йому потрібні точне керування, зручна форма й налаштування чутливості. На що варто звернути увагу?</p>
+  <div id="q9"></div>
+  <div class="feedback" id="f9" aria-live="polite"></div>
+  <button class="primary" onclick="check(9)">Обґрунтувати вибір</button>
+</section>
+
+<section class="panel" id="python">
+  <div class="mission-head"><span class="tag">МІСІЯ 10 · CODE LAB</span><span class="points">+4 бали</span></div>
+  <h2>🐍 Запусти власну програму</h2>
+  <p>Зміни код і запусти його. Програма має вивести списки пристроїв введення та виведення. Спробуй додати вебкамеру, сканер або проєктор.</p>
+  <label for="code">Редактор Python</label>
+  <textarea id="code" spellcheck="false" autocapitalize="off">input_devices = ["клавіатура", "мікрофон", "сканер", "вебкамера"]
+output_devices = ["монітор", "принтер", "колонки", "проєктор"]
+
+print("ПРИСТРОЇ ВВЕДЕННЯ:")
+for device in input_devices:
+    print("-", device)
+
+print("ПРИСТРОЇ ВИВЕДЕННЯ:")
+for device in output_devices:
+    print("-", device)</textarea>
+  <div class="actions">
+    <button class="primary" id="runBtn" onclick="runCode()">▶ Запустити Python</button>
+    <button class="secondary" onclick="resetCode()">↺ Відновити початковий код</button>
+  </div>
+  <p class="small">Python запускається у браузері через Pyodide. Під час першого запуску потрібно завантажити середовище з інтернету.</p>
+  <h3>Термінал</h3>
+  <pre id="output" aria-live="polite">Очікую на запуск програми…</pre>
+  <div class="feedback" id="f10" aria-live="polite"></div>
+</section>
+
+<section class="panel">
+  <div class="tag">FINAL REPORT</div>
+  <h2>🏁 Фінішна панель</h2>
+  <p>Перевір прогрес і залиш коротку рефлексію. Результати надсилаються лише після натискання кнопки.</p>
+  <label for="reflection">Який пристрій ти обрав/обрала б для власного проєкту і чому?</label>
+  <textarea id="reflection" maxlength="1500" placeholder="Мій вибір — ... Тому що ..."></textarea>
+  <div id="finalSummary" class="notice" style="margin-top:15px">Виконано 0 із 10 місій. Результат: 0 із 22 балів.</div>
+  <div class="actions">
+    <button class="primary" onclick="submitResults()">📧 Надіслати результат учителю</button>
+    <button class="secondary" onclick="window.print()">🖨️ Друкувати / зберегти PDF</button>
+  </div>
+  <div id="sendStatus" class="feedback" role="status" aria-live="polite"></div>
+  <p class="small">Відправлення на пошту потребує налаштованої форми Formspree. До її налаштування дані нікуди не надсилаються.</p>
+</section>
+
+<section class="panel">
+  <h2>🏆 Рівні дослідника</h2>
+  <div class="grid">
+    <div><span class="chip">0–7 балів</span><p>🌱 Початківець</p></div>
+    <div><span class="chip">8–13 балів</span><p>⚡ Техно-дослідник</p></div>
+    <div><span class="chip">14–18 балів</span><p>🚀 Цифровий експерт</p></div>
+    <div><span class="chip">19–22 бали</span><p>👑 Майстер Cyber Lab</p></div>
+  </div>
+  <details style="margin-top:18px">
+    <summary>Примітка для вчителя</summary>
+    <p>Місії 1–5 перевіряють призначення пристроїв, класифікацію та доступність. Місії 6–9 — застосування характеристик у ситуаціях вибору. Місія 10 перевіряє запуск і модифікацію програми.</p>
+    <p>Максимум — 22 бали. Для ноутбуків і смартфонів наведено умовні дані; це навчальні сценарії, а не рейтинг реальних товарів.</p>
+    <p>Підсумкові бали враховують лише перевірені місії. Пояснення вибору варто обговорити окремо, якщо потрібне оцінювання аргументації.</p>
+  </details>
+</section>
+</main>
+
+<footer>
+  <p>CYBER LAB · Інформатика · 8 клас НУШ</p>
+  <p class="small">Think · Test · Create · Repeat</p>
+</footer>
+
+<script>
+"use strict";
+
+/*
+  НАЛАШТУВАННЯ ПОШТИ:
+  Створи форму на https://formspree.io/
+  і заміни YOUR_FORM_ID на ID своєї форми.
+*/
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mgaodqjy";
+
+const questions = {
+  1:{
+    options:[
+      "Мікрофон і вебкамера для введення, навушники або колонки для виведення.",
+      "Принтер, сканер і монітор — усі потрібні для введення голосу.",
+      "Лише клавіатура, адже вона передає відео та звук."
+    ],
+    correct:0,
+    why:"Мікрофон і вебкамера вводять звук та зображення. Навушники й колонки відтворюють звук."
+  },
+  2:{
+    options:[
+      "Принтер — він переносить цифрове зображення на папір.",
+      "Сканер — він зчитує паперову сторінку та передає її цифрове зображення комп'ютеру.",
+      "Проєктор — він показує сторінку на великій поверхні."
+    ],
+    correct:1,
+    why:"Сканер вводить у комп'ютер зображення паперових оригіналів."
+  },
+  3:{
+    options:[
+      "Лише колір корпусу та кількість кнопок.",
+      "Роздільна здатність, властивості матриці, охоплення кольорів і точність їх відтворення.",
+      "Лише гучність вбудованих динаміків."
+    ],
+    correct:1,
+    why:"Роздільна здатність впливає на деталізацію, а матриця та колірне охоплення важливі для роботи з кольором."
+  },
+  5:{
+    options:[
+      "Голосове введення або мікрофон для диктування; синтез мовлення й колонки або навушники для прослуховування тексту.",
+      "Тільки принтер і вебкамера.",
+      "Лише сенсорна панель, незалежно від потреб учня."
+    ],
+    correct:0,
+    why:"Голосове введення допомагає диктувати текст, а синтез мовлення — прослуховувати його. Рішення добирають під потреби користувача."
+  },
+  6:{
+    options:[
+      "Ноутбук A: 8 ГБ RAM, SSD 256 ГБ, базовий процесор, 18 000 грн.",
+      "Ноутбук B: 16 ГБ RAM, SSD 512 ГБ, сучасний багатоядерний процесор, 27 000 грн.",
+      "Ноутбук C: 4 ГБ RAM, HDD 1 ТБ, базовий процесор, 22 000 грн."
+    ],
+    correct:1,
+    why:"B вкладається в бюджет і має збалансовані характеристики для багатозадачності, програмування та нескладного відеомонтажу. Реальна продуктивність залежить від конкретного процесора, охолодження та інших компонентів."
+  },
+  7:{
+    options:[
+      "Телефон A: 64 ГБ, відео без стабілізації, батарея 4000 мА·год, 8 000 грн.",
+      "Телефон B: 256 ГБ, якісне відео зі стабілізацією, батарея 5000 мА·год, 19 000 грн.",
+      "Телефон C: 128 ГБ, висока роздільна здатність камери, батарея 3000 мА·год, 18 500 грн."
+    ],
+    correct:1,
+    why:"B найкраще відповідає всім заявленим потребам у межах бюджету. Ємність батареї та кількість мегапікселів самі по собі не гарантують автономності чи якості камери."
+  },
+  8:{
+    options:[
+      "Кольоровий струменевий фотопринтер, орієнтований на фотографії.",
+      "Монохромний лазерний принтер для великих обсягів чорно-білих документів.",
+      "Фотопринтер для друку невеликих фотографій, навіть якщо переважають текстові документи."
+    ],
+    correct:1,
+    why:"Монохромний лазерний принтер часто доцільний для великих обсягів тексту. Перед купівлею слід порівняти ціну пристрою, ресурс картриджа, витратні матеріали та гарантію."
+  },
+  9:{
+    options:[
+      "Перевірити лише RGB-підсвічування та кількість декоративних кнопок.",
+      "Перевірити налаштування DPI, точність сенсора, форму, зручність хвату й тип підключення.",
+      "Обрати найбільше значення DPI, адже воно автоматично гарантує найкращу точність."
+    ],
+    correct:1,
+    why:"Для графіки важливі контроль курсора, сенсор та ергономіка. DPI описує чутливість, але більше значення не гарантує кращої точності."
+  }
+};
+
+const state = {
+  answers:{},
+  correct:{},
+  code:false,
+  codeAttempted:false,
+  codeOutput:"",
+  codeError:""
+};
+
+const deviceTypes = [
+  ["Клавіатура","Введення"],
+  ["Мікрофон","Введення"],
+  ["Монітор","Виведення"],
+  ["Принтер","Виведення"],
+  ["Сканер","Введення"],
+  ["Колонки","Виведення"],
+  ["Вебкамера","Введення"],
+  ["Проєктор","Виведення"]
+];
+
+function renderChoice(id){
+  const root=document.getElementById("q"+id);
+  root.innerHTML="";
+  questions[id].options.forEach((option,index)=>{
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="option";
+    button.textContent=String.fromCharCode(65+index)+". "+option;
+    button.addEventListener("click",()=>choose(id,index));
+    root.appendChild(button);
+  });
+}
+
+function choose(id,index){
+  state.answers[id]=index;
+  delete state.correct[id];
+  const buttons=document.querySelectorAll("#q"+id+" .option");
+  buttons.forEach((button,i)=>{
+    button.classList.toggle("selected",i===index);
+    button.classList.remove("correct","wrong");
+  });
+  const feedback=document.getElementById("f"+id);
+  feedback.textContent="Відповідь обрано. Натисни «Перевірити рішення».";
+  feedback.className="feedback";
+  update();
+}
+
+function renderDevices(){
+  const root=document.getElementById("q4");
+  root.innerHTML="";
+  deviceTypes.forEach(([name])=>{
+    const row=document.createElement("div");
+    row.className="device-row";
+    const label=document.createElement("label");
+    label.textContent=name;
+    label.htmlFor="device-"+name;
+    const select=document.createElement("select");
+    select.id="device-"+name;
+    select.dataset.device=name;
+    select.innerHTML=
+      '<option value="">Обери тип…</option>'+
+      '<option value="Введення">Введення</option>'+
+      '<option value="Виведення">Виведення</option>';
+    select.addEventListener("change",()=>{
+      delete state.correct[4];
+      const f=document.getElementById("f4");
+      f.textContent="Зміни збережено. Перевір розподіл, коли будеш готовий.";
+      f.className="feedback";
+      update();
+    });
+    row.append(label,select);
+    root.appendChild(row);
+  });
+}
+
+function setFeedback(id,message,type=""){
+  const element=document.getElementById("f"+id);
+  element.textContent=message;
+  element.className="feedback"+(type?" "+type:"");
+}
+
+function check(id){
+  if(id===4){
+    const selects=[...document.querySelectorAll("#q4 select")];
+    if(selects.some(s=>!s.value)){
+      setFeedback(4,"Заповни всі рядки перед перевіркою.","error");
+      return;
+    }
+    const good=selects.every(select=>{
+      const expected=deviceTypes.find(item=>item[0]===select.dataset.device);
+      return expected && select.value===expected[1];
+    });
+    state.correct[4]=good;
+    selects.forEach(select=>{
+      const expected=deviceTypes.find(item=>item[0]===select.dataset.device);
+      select.style.borderColor=select.value===expected[1]?"var(--green)":"var(--pink)";
+    });
+    setFeedback(4,good?
+      "Усі 8 пристроїв класифіковано правильно! +2 бали.":
+      "Є помилки. Введення передає дані комп'ютеру, а виведення подає результат користувачу.",
+      good?"success":"");
+    update();
+    return;
+  }
+
+  if(state.answers[id]===undefined){
+    setFeedback(id,"Спочатку обери одну відповідь.","error");
+    return;
+  }
+
+  const good=state.answers[id]===questions[id].correct;
+  state.correct[id]=good;
+  const buttons=document.querySelectorAll("#q"+id+" .option");
+  buttons.forEach((button,index)=>{
+    button.classList.remove("selected","correct","wrong");
+    if(index===questions[id].correct)button.classList.add("correct");
+    if(index===state.answers[id]&&!good)button.classList.add("wrong");
+  });
+
+  setFeedback(id,
+    (good?"Правильно! +2 бали. ":"Не зовсім. ")+questions[id].why,
+    good?"success":"");
+  update();
+}
+
+function completedCount(){
+  return [1,2,3,4,5,6,7,8,9].filter(id=>
+    state.correct[id]!==undefined
+  ).length+(state.codeAttempted?1:0);
+}
+
+function scoreCount(){
+  return [1,2,3,4,5,6,7,8,9].reduce((sum,id)=>
+    sum+(state.correct[id]===true?2:0),0
+  )+(state.code?4:0);
+}
+
+function update(){
+  const completed=completedCount();
+  const score=scoreCount();
+  document.getElementById("progressText").textContent=completed+" / 10";
+  document.getElementById("score").textContent=score+" / 22";
+  document.getElementById("bar").style.width=(completed/10*100)+"%";
+  document.getElementById("progressBar").setAttribute("aria-valuenow",completed);
+
+  let rank="Новачок";
+  if(score>=19)rank="Майстер 👑";
+  else if(score>=14)rank="Експерт 🚀";
+  else if(score>=8)rank="Дослідник ⚡";
+  document.getElementById("rank").textContent=rank;
+  document.getElementById("finalSummary").textContent=
+    `Виконано ${completed} із 10 місій. Результат: ${score} із 22 балів.`;
+}
+
+const initialCode=document.getElementById("code").value;
+let pyodidePromise=null;
+
+function resetCode(){
+  document.getElementById("code").value=initialCode;
+  document.getElementById("output").textContent="Очікую на запуск програми…";
+  state.code=false;
+  state.codeAttempted=false;
+  state.codeOutput="";
+  state.codeError="";
+  setFeedback(10,"Код відновлено. Запусти програму, щоб виконати місію.");
+  update();
+}
+
+async function runCode(){
+  const button=document.getElementById("runBtn");
+  const output=document.getElementById("output");
+  button.disabled=true;
+  output.textContent="Завантаження Python-середовища…";
+  setFeedback(10,"Підготовка середовища. Перший запуск може тривати довше.");
+
+  try{
+    if(!pyodidePromise){
+      pyodidePromise=import(
+        "https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.mjs"
+      ).then(module=>module.loadPyodide());
+    }
+
+    const py=await pyodidePromise;
+    let captured="";
+    py.setStdout({batched:(line)=>{captured+=line+"\n";}});
+    py.setStderr({batched:(line)=>{captured+="[stderr] "+line+"\n";}});
+
+    await py.runPythonAsync(document.getElementById("code").value);
+
+    output.textContent=captured||"(Програма виконалася без текстового виводу.)";
+    state.codeOutput=captured;
+    state.codeError="";
+    state.codeAttempted=true;
+
+    const hasInput=/ПРИСТРОЇ ВВЕДЕННЯ/i.test(captured);
+    const hasOutput=/ПРИСТРОЇ ВИВЕДЕННЯ/i.test(captured);
+    state.code=hasInput&&hasOutput;
+
+    setFeedback(10,state.code?
+      "Код успішно запущено. Обидві категорії виведено. +4 бали.":
+      "Програма запустилася, але потрібно вивести обидві категорії. Зміни код і запусти ще раз.",
+      state.code?"success":"");
+  }catch(error){
+    state.code=false;
+    state.codeAttempted=true;
+    state.codeError=String(error);
+    output.textContent="Помилка виконання:\n"+String(error);
+    setFeedback(10,"Перевір відступи, лапки, дужки та назви змінних.","error");
+  }finally{
+    button.disabled=false;
+    update();
+  }
+}
+
+async function submitResults(){
+  const status=document.getElementById("sendStatus");
+  const name=document.getElementById("student").value.trim();
+  const classroom=document.getElementById("classroom").value.trim();
+
+  if(!name||!classroom){
+    status.textContent="Заповни ім'я та клас перед надсиланням.";
+    status.className="feedback error";
+    document.getElementById(!name?"student":"classroom").focus();
+    return;
+  }
+
+  const report={
+    student:name,
+    classroom:classroom,
+    score:scoreCount(),
+    max_score:22,
+    completed_missions:completedCount(),
+    mission_answers:state.answers,
+    mission_correctness:state.correct,
+    python_completed:state.code,
+    reflection:document.getElementById("reflection").value.trim(),
+    submitted_at:new Date().toISOString()
+  };
+
+  if(!/^https:\/\/formspree\.io\/f\/[A-Za-z0-9]+$/.test(FORMSPREE_ENDPOINT)){
+    status.textContent=
+      "Пошту ще не налаштовано. Заміни YOUR_FORM_ID у коді на ID форми Formspree. Результат поки не надіслано.";
+    status.className="feedback error";
+    return;
+  }
+
+  status.textContent="Надсилання результатів…";
+  status.className="feedback";
+  try{
+    const response=await fetch(FORMSPREE_ENDPOINT,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Accept":"application/json"
+      },
+      body:JSON.stringify(report)
+    });
+    if(!response.ok)throw new Error("HTTP "+response.status);
+    status.textContent="Результати успішно надіслано. Дякуємо за роботу!";
+    status.className="feedback success";
+  }catch(error){
+    status.textContent=
+      "Не вдалося надіслати результати. Перевір інтернет, ID форми та налаштування Formspree.";
+    status.className="feedback error";
+  }
+}
+
+[1,2,3,5,6,7,8,9].forEach(renderChoice);
+renderDevices();
+update();
+</script>
+</body>
+</html>
